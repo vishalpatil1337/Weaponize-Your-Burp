@@ -46,7 +46,7 @@ This framework tests 25 different redirect techniques simultaneously across all 
 4. AutoRepeater will test ALL parameters automatically.
  
 ### Tab Configurations:
-**Tab 1: Basic External Domain**
+####Tab 1: Basic External Domain**
 ...
 Type: Request Parameter Value  
 Match: .*  
@@ -56,7 +56,7 @@ Regex Match: Enabled
 Comment: Basic external domain redirect test.
 ...
  
-**Tab 2: Scheme-Relative URL**
+####Tab 2: Scheme-Relative URL**
 ...
 Type: Request Parameter Value  
 Match: .*  
@@ -781,5 +781,6 @@ https://trusted-bank.com/logout?next=https://evil-bank-phishing.com/login
 ```
 ?redirect=%0d%0aSet-Cookie:%20session=hijacked%0d%0aLocation:%20https://evil.com
 [Continue with remaining tabs in similar format]
+
 
 
