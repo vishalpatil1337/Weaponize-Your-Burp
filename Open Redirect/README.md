@@ -32,12 +32,12 @@ This framework tests 25 different redirect techniques simultaneously across all 
 - **Logger++** - Download from BApp Store
 
 ### Target Indicators (High Success):
-✓ OAuth/OIDC authentication flows (redirect_uri, callback_url)
-✓ Logout/login pages with redirect parameters
-✓ Parameters like: url, redirect, next, return, goto, destination, returnTo, continue
-✓ /logout, /signin, /signout, /auth/*, /oauth/* endpoints
-✓ Link shortener services
-✓ External link warning pages
+- ✓ OAuth/OIDC authentication flows (redirect_uri, callback_url)
+- ✓ Logout/login pages with redirect parameters
+- ✓ Parameters like: url, redirect, next, return, goto, destination, returnTo, continue
+- ✓ /logout, /signin, /signout, /auth/*, /oauth/* endpoints
+- ✓ Link shortener services
+- ✓ External link warning pages
 
 ## 🔧 AutoRepeater Configuration Setup Instructions:
 1. Open Burp Suite → Extensions → AutoRepeater.
@@ -47,14 +47,17 @@ This framework tests 25 different redirect techniques simultaneously across all 
  
 ### Tab Configurations:
 **Tab 1: Basic External Domain**
+...
 Type: Request Parameter Value  
 Match: .*  
 Replace: https://evil.com  
 Which: Replace All  
 Regex Match: Enabled  
 Comment: Basic external domain redirect test.
+...
  
 **Tab 2: Scheme-Relative URL**
+...
 Type: Request Parameter Value  
 Match: .*  
 dReplace: //evil.com  
@@ -778,4 +781,5 @@ https://trusted-bank.com/logout?next=https://evil-bank-phishing.com/login
 ```
 ?redirect=%0d%0aSet-Cookie:%20session=hijacked%0d%0aLocation:%20https://evil.com
 [Continue with remaining tabs in similar format]
+
 
