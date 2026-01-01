@@ -4,24 +4,6 @@ Complete configuration guide for finding Cross-Site Scripting (XSS) vulnerabilit
 
 ---
 
-## 📋 Table of Contents
-
-- [AutoRepeater Configuration](#autorepeater-configuration)
-  - [Canary Detection](#1-canary-detection)
-  - [Reflected XSS Payloads](#2-reflected-xss-payloads)
-  - [Blind XSS Payloads](#3-blind-xss-payloads)
-  - [DOM XSS Payloads](#4-dom-xss-payloads)
-  - [Special Context Payloads](#5-special-context-payloads)
-  - [Bypass Payloads](#6-bypass-payloads)
-- [Logger++ Filter Configuration](#logger-filter-configuration)
-  - [Basic Detection Filters](#basic-detection-filters)
-  - [Advanced Detection Filters](#advanced-detection-filters)
-  - [Context-Specific Filters](#context-specific-filters)
-- [Optimization Tips](#optimization-tips-for-bug-bounty)
-- [Priority Testing Order](#priority-testing-order)
-- [Quick Reference](#quick-reference-xss-contexts)
-
----
 
 ## 🔧 AutoRepeater Configuration
 
