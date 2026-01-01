@@ -47,24 +47,24 @@ This framework tests 25 different redirect techniques simultaneously across all 
  
 ### Tab Configurations:
 #### Tab 1: Basic External Domain**
-...
+```
 Type: Request Parameter Value  
 Match: .*  
 Replace: https://evil.com  
 Which: Replace All  
 Regex Match: Enabled  
 Comment: Basic external domain redirect test.
-...
+```
  
 #### Tab 2: Scheme-Relative URL**
-...
+```
 Type: Request Parameter Value  
 Match: .*  
 dReplace: //evil.com  
 dWhich: Replace All  
 dRegex Match: Enabled  
 dComment: Scheme-relative bypass - inherits current protocol.
-...
+```
 
 #### Tab 3: Triple Slash
 ```
@@ -781,6 +781,7 @@ https://trusted-bank.com/logout?next=https://evil-bank-phishing.com/login
 ```
 ?redirect=%0d%0aSet-Cookie:%20session=hijacked%0d%0aLocation:%20https://evil.com
 [Continue with remaining tabs in similar format]
+
 
 
 
