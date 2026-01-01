@@ -175,23 +175,27 @@ AND Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 AND NOT Response.Headers CONTAINS "Access-Control-Allow-Origin: https://legitimate-domain.com"
 AND Response.Status == "200"
 
-text
+
 **Why**: Catches ALL origin reflections with credentials enabled - highest severity
+
+---
 
 ### Filter 2: Null Origin Vulnerability
 Response.Headers CONTAINS "Access-Control-Allow-Origin: null"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 AND Response.Status == "200"
 
-text
 **Why**: Exploitable via sandboxed iframe - direct exploitation path
+
+---
 
 ### Filter 3: Evil Domain Reflection (Direct Test)
 Response.Headers CONTAINS "Access-Control-Allow-Origin: https://attacker-domain.com"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 
-text
 **Why**: Your AutoRepeater test succeeded - confirms basic reflection
+
+---
 
 ### Filter 4: Subdomain Reflection Pattern
 Response.Headers CONTAINS "Access-Control-Allow-Origin:"
@@ -199,8 +203,9 @@ AND (Response.Headers CONTAINS ".target.com" OR Response.Headers CONTAINS "targe
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 AND (Request.Headers CONTAINS "evil" OR Request.Headers CONTAINS "attacker")
 
-text
 **Why**: Detects subdomain wildcard misconfigurations - combine with takeover
+
+---
 
 ### Filter 5: Localhost/Internal Origin Trust
 Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
@@ -208,8 +213,9 @@ AND (Response.Headers CONTAINS "Access-Control-Allow-Origin: http://localhost"
 OR Response.Headers CONTAINS "Access-Control-Allow-Origin: http://127.0.0.1"
 OR Response.Headers CONTAINS "Access-Control-Allow-Origin: http://0.0.0.0")
 
-text
 **Why**: Internal network pivot - access internal APIs via victim's browser
+
+---
 
 ### Filter 6: Protocol Downgrade Success
 Response.Headers CONTAINS "Access-Control-Allow-Origin: http://"
@@ -217,15 +223,17 @@ AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 AND Request.Headers CONTAINS "Origin: http://"
 AND Request.URL CONTAINS "https://"
 
-text
 **Why**: HTTPS site trusting HTTP origin - MitM attack vector
+
+---
 
 ### Filter 7: Wildcard with Credentials (Technically Invalid)
 Response.Headers CONTAINS "Access-Control-Allow-Origin: *"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 
-text
 **Why**: Browsers reject this, but misconfig indicates poor CORS understanding
+
+---
 
 ### Filter 8: Sensitive Endpoints with CORS
 (Request.Path CONTAINS "/api/"
@@ -241,8 +249,9 @@ AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 AND Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 AND Response.Status == "200"
 
-text
 **Why**: Prioritize sensitive endpoints - actual data exfiltration impact
+
+---
 
 ### Filter 9: Pre-flight OPTIONS with Reflected Origin
 Request.Method == "OPTIONS"
@@ -251,8 +260,9 @@ AND Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 AND NOT Response.Headers CONTAINS "Access-Control-Allow-Origin: https://legitimate-domain.com"
 
-text
 **Why**: Pre-flight approval for complex requests - confirms full CORS bypass
+
+---
 
 ### Filter 10: Dangerous Methods Allowed
 Response.Headers CONTAINS "Access-Control-Allow-Methods:"
@@ -260,24 +270,27 @@ AND (Response.Headers CONTAINS "DELETE" OR Response.Headers CONTAINS "PUT" OR Re
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 AND Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 
-text
 **Why**: Enables destructive actions - account deletion, data modification
+
+---
 
 ### Filter 11: Custom Headers Allowed (Potential Bypass)
 Response.Headers CONTAINS "Access-Control-Allow-Headers:"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 AND (Response.Headers CONTAINS "X-" OR Response.Headers CONTAINS "Authorization")
 
-text
 **Why**: Custom headers can bypass additional security - auth token exfiltration
+
+---
 
 ### Filter 12: Regex Bypass - Prefix Pattern
 Request.Headers CONTAINS "Origin: https://evil-"
 AND Response.Headers CONTAINS "Access-Control-Allow-Origin: https://evil-"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 
-text
 **Why**: Confirms pre-domain regex bypass worked
+
+---
 
 ### Filter 13: Regex Bypass - Unescaped Dot
 Request.Headers CONTAINS "Origin:"
@@ -285,8 +298,9 @@ AND Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 AND (Request.Headers CONTAINS "apii" OR Request.Headers CONTAINS "apiz" OR Request.Headers CONTAINS "api_")
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 
-text
 **Why**: Detects unescaped dot in regex validation
+
+---
 
 ### Filter 14: Special Character Bypass Detection
 Request.Headers CONTAINS "Origin:"
@@ -294,8 +308,9 @@ AND (Request.Headers CONTAINS "_" OR Request.Headers CONTAINS "}" OR Request.Hea
 AND Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 
-text
 **Why**: Catches underscore/special char bypasses (browser-specific)
+
+---
 
 ### Filter 15: Post-Domain Bypass Pattern
 Request.Headers CONTAINS "Origin:"
@@ -303,15 +318,17 @@ AND Request.Headers CONTAINS ".evil.com"
 AND Response.Headers CONTAINS ".evil.com"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 
-text
 **Why**: Confirms `target.com.evil.com` bypass worked
+
+---
 
 ### Filter 16: File Protocol Trust
 Response.Headers CONTAINS "Access-Control-Allow-Origin: file://"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 
-text
 **Why**: Local file trust - rare but critical
+
+---
 
 ### Filter 17: JSON/API Responses with CORS
 Response.Headers CONTAINS "Content-Type: application/json"
@@ -320,8 +337,9 @@ AND Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 AND Response.Body CONTAINS "{"
 AND (Response.Body CONTAINS "email" OR Response.Body CONTAINS "token" OR Response.Body CONTAINS "key" OR Response.Body CONTAINS "password")
 
-text
 **Why**: JSON APIs with sensitive data - direct exploitation value
+
+---
 
 ### Filter 18: GraphQL with CORS
 Request.Path CONTAINS "graphql"
@@ -329,55 +347,62 @@ AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 AND Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 AND Response.Status == "200"
 
-text
 **Why**: GraphQL endpoints often have CORS - high-value targets
+
+---
 
 ### Filter 19: WebSocket CORS (Rare)
 Request.Headers CONTAINS "Upgrade: websocket"
 AND Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 
-text
 **Why**: WebSocket origin trust issues - real-time data exfiltration
+
+---
 
 ### Filter 20: JSONP Callback Detection (CORS Alternative)
 Request.URL CONTAINS "callback="
 AND Response.Headers CONTAINS "Content-Type: application/javascript"
 AND Response.Status == "200"
 
-text
 **Why**: JSONP bypasses CORS entirely - different attack but same impact
+
+---
 
 ### Filter 21: Credentials WITHOUT Origin Header
 Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 AND NOT Request.Headers CONTAINS "Origin:"
 AND Response.Status == "200"
 
-text
 **Why**: Server allows credentials globally - test if adding Origin works
+
+---
 
 ### Filter 22: Cache-Control Missing (Cache Poisoning)
 Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 AND NOT Response.Headers CONTAINS "Vary: Origin"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 
-text
 **Why**: Cache poisoning possible - browser/proxy caches reflected origin
+
+---
 
 ### Filter 23: Multiple Origins in Response (Invalid)
 Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 AND Response.Headers CONTAINS ","
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 
-text
 **Why**: Invalid config but indicates poor implementation
+
+---
 
 ### Filter 24: Max-Age High Value
 Response.Headers CONTAINS "Access-Control-Max-Age:"
 AND Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
 AND Response.Headers CONTAINS "Access-Control-Allow-Origin:"
 
-text
 **Why**: Long pre-flight cache - persistent bypass window
+
+---
 
 ### Filter 25: Combined - The Perfect Storm
 Response.Headers CONTAINS "Access-Control-Allow-Credentials: true"
@@ -388,7 +413,6 @@ AND (Request.Path CONTAINS "/api/" OR Request.Path CONTAINS "/admin")
 AND Response.Status == "200"
 AND (Response.Body CONTAINS "email" OR Response.Body CONTAINS "token")
 
-text
 **Why**: Ultimate filter - credentials + reflection + no cache control + dangerous methods + sensitive endpoint + sensitive data
 
 ---
