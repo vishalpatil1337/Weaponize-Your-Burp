@@ -1,4 +1,4 @@
-"""# 🎯 Elite XSS (Cross-Site Scripting) Hunter - Advanced Edition
+# 🎯 Elite XSS (Cross-Site Scripting) Hunter - Advanced Edition
 ## AutoRepeater + Logger++ Configuration for Professional Bug Bounty Hunters
 
 > **Skill Level:** Advanced to Expert  
